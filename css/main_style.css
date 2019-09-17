@@ -7,12 +7,83 @@ Colorblind safe color palette from colorbrewer2.org.
 #0571b0 - blue
 */
 
-body {
-  background-color: #f4a582;
-  color: #ca0020;
-  text-align: center;
+#header {
+/*This declaration changes the background color of the header to
+light blue.*/
+  background-color: #92c5de;
 }
 
 h1 {
+/*This declaration changes the color of the text "Hello, my name is Bradley
+Johnson!" to blue.*/
+  color: #0571b0;
+/*This declaration adds 5 pixels worth of padding between my header content
+and the border.*/
+  padding: 5px;
+/*This declaration adds 0 space between the header border, the top of
+the page, and the top of the image of me.*/
+  margin: 0;
+}
+
+#body-container {
+/*This declaration changes the background color of the body-container
+to white.*/
+  background-color: #f7f7f7;
+/*This declaration sets the maximum width of the body container as 1000
+pixels instead of going across the whole web page.*/
+  max-width: 1000px;
+/*This declaration allows the webpage to automatically position the margin.*/
+  margin: auto;
+/*This declaration sets the height of the body container at 100vh.*/
+  height: 100vh;
+/*This declaration sets a 2-pixel wide, solid, blue line border around the
+body container.*/
+  border: 2px solid #0571b0;
+/*This declaration applies a radius of 25 pixels to all four of the body
+container's corners and in effect makes them round.*/
+  border-radius: 25px;
+/*This declaration hides the overflow of the body container out of its
+border and in effect trims it to the border.*/
+  overflow: hidden;
+}
+
+body {
+/*This declaration changes the color of the body of the webpage outside of
+the body container to peach.*/
+  background-color: #f4a582;
+/*This declaration changes the text in the body to red.*/
   color: #ca0020;
+/*This declaration centers all of the contents of the body.*/
+  text-align: center;
+/*This declaration applies 0 margin between the body container and the
+top and bottom of the webpage.*/
+  margin: 0;
+}
+
+#profile-picture {
+/*This declaration moves my profile picture to the left of the body
+container.*/
+  float: left;
+}
+
+#welcome-text {
+/*This declaration added 25 pixels worth of padding between the header and
+the top of the welcome text.*/
+  padding-top: 25px;
+/*This declaration changes the font size of the welcome text to 25 pixels.*/
+  font-size: 25px;
+}
+
+#research-interests {
+/*This declaration left aligns my research interest list.*/
+  text-align: left;
+/*This declaration changes the font size of my research interests to 25
+pixels.*/
+  font-size: 25px;
+/*This declaration begins to change the position of my research interests
+by declaring a position relative to its normal position.*/
+  position: relative;
+/*This declaration positions my research interests 50 pixels to the right
+of its normal position.*/
+  left: 50px;
 }
