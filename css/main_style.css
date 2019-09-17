@@ -7,6 +7,19 @@ Colorblind safe color palette from colorbrewer2.org.
 #0571b0 - blue
 */
 
+body {
+/*This declaration changes the color of the body of the webpage outside of
+the body container to peach.*/
+  background-color: #f4a582;
+/*This declaration changes the text in the body to red.*/
+  color: #ca0020;
+/*This declaration centers all of the contents of the body.*/
+  text-align: center;
+/*This declaration applies 0 margin between the body container and the
+top and bottom of the webpage.*/
+  margin: 0;
+}
+
 #header {
 /*This declaration changes the background color of the header to
 light blue.*/
@@ -34,8 +47,9 @@ pixels instead of going across the whole web page.*/
   max-width: 1000px;
 /*This declaration allows the webpage to automatically position the margin.*/
   margin: auto;
-/*This declaration sets the height of the body container at 100vh.*/
-  height: 100vh;
+/*This declaration sets the height of the body container at 100 vertical
+height minus 4 pixels to account for the top and bottom border.*/
+  height: calc(100vh - 4px);
 /*This declaration sets a 2-pixel wide, solid, blue line border around the
 body container.*/
   border: 2px solid #0571b0;
@@ -45,19 +59,6 @@ container's corners and in effect makes them round.*/
 /*This declaration hides the overflow of the body container out of its
 border and in effect trims it to the border.*/
   overflow: hidden;
-}
-
-body {
-/*This declaration changes the color of the body of the webpage outside of
-the body container to peach.*/
-  background-color: #f4a582;
-/*This declaration changes the text in the body to red.*/
-  color: #ca0020;
-/*This declaration centers all of the contents of the body.*/
-  text-align: center;
-/*This declaration applies 0 margin between the body container and the
-top and bottom of the webpage.*/
-  margin: 0;
 }
 
 #profile-picture {
