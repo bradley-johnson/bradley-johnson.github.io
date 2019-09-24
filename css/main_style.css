@@ -88,3 +88,10 @@ by declaring a position relative to its normal position.*/
 of its normal position.*/
   left: 50px;
 }
+
+#footer {
+  position: absolute;
+  width: 1000px;
+  text-align: center;
+  bottom: 20px;
+}

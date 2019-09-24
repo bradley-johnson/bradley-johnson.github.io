@@ -15,7 +15,7 @@
       <img src=images/profile-picture.jpg width=500px height=500px />
     </div>
     <div id="welcome-text">
-      Welcome to my webpage.<br>
+      My name is Bradley.<br>
       I am a student in the
       <a href="https://www.geo.txstate.edu">Geography Department</a> at
       <a href="https://txstate.edu/">Texas State University</a>.</p>
@@ -31,7 +31,17 @@
     </div>
   </div>
   <div id="footer">
-    <p>&copy 2019 by Bradley Johnson</p>
+    <script>
+      // A new variable was intitiated called today which instantiates a date.
+      var today = new Date();
+      /* A new variable was initiated called year which returns the year of the
+      entered date which is today.*/
+      var year = today.getFullYear();
+      /* A line is written on the bottom of the webpage which says "Copyright",
+      followed by the copyright symbol, followed by the year returned by the
+      .getFullYear method embedded in the year variable.*/
+      document.writeln("Copyright &copy; " + year);
+    </script>
   </div>
 </body>
 </html>
