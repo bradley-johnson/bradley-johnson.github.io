@@ -15,7 +15,7 @@
       </script>
     </div>
     <div id="profile-picture">
-      <img src=images/profile-picture.jpg width=500px height=500px />
+      <img src=images/profile-picture.jpg width=250px height=250px />
     </div>
     <div id="welcome-text">
       My name is Bradley.<br>
@@ -30,21 +30,26 @@
         <li>Geographic Information Science</li>
         <li>Nighttime Imagery of Cities</li>
       <ul>
-
     </div>
-    <div id="footer">
+    <div id = "webmap-reviews">
+      <h3>Webmap Reviews</h3>
       <script>
-        // A new variable was intitiated called today which instantiates a date.
-        var today = new Date();
-        /* A new variable was initiated called year which returns the year of the
-        entered date which is today.*/
-        var year = today.getFullYear();
-        /* A line is written on the bottom of the webpage which says "Copyright",
-        followed by the copyright symbol, followed by the year returned by the
-        .getFullYear method embedded in the year variable.*/
-        document.writeln("Copyright &copy; " + year);
+        webmap_table();
       </script>
     </div>
+  </div>
+  <div id="footer">  
+    <script>
+      // A new variable was intitiated called today which instantiates a date.
+      var today = new Date();
+      /* A new variable was initiated called year which returns the year of the
+      entered date which is today.*/
+      var year = today.getFullYear();
+      /* A line is written on the bottom of the webpage which says "Copyright",
+      followed by the copyright symbol, followed by the year returned by the
+      .getFullYear method embedded in the year variable.*/
+      document.write("Copyright &copy; " + year);
+    </script>
   </div>
 </body>
 </html>

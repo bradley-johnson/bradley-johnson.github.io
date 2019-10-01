@@ -89,6 +89,12 @@ of its normal position.*/
   left: 50px;
 }
 
+#webmap-reviews {
+  text-align: left;
+  font-size: 25px;
+  position: relative;
+}
+
 #footer {
   position: absolute;
   width: 1000px;
