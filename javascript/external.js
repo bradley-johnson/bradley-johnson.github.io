@@ -26,14 +26,22 @@ function welcome()
 function webmap_table()
 {
   document.write("<table width = 100%>");
-  for (var row = 0; row < webmaps.length; row++)
-  {
-    document.write("<tr>");
-    for (var column = 0; column < webmaps[0].length; column++)
-    {
-      document.write("<td>" + webmaps[row][column] + "</td>");
+  for (var row = 0; row < webmaps.length; row++) {
+    if (row < 1) {
+      document.write("<tr>");
+    } else {
+      document.write("<tr>" + "<td>" + "<br>" + "<td>" + "</tr>");
     }
-    document.write("</tr>");
+    for (var column = 0; column < webmaps[0].length; column++){
+      if (column < 2) {
+        document.write("<td>" + webmaps[row][column] + "</td>");
+    } else {
+        document.write("</tr>");
+        document.write("<tr>");
+        document.write("<td colspan = '2'>" + webmaps[row][column] + "</td>");
+        document.write("</tr>");
+    }
   }
-  document.write("</table");
-}
+  }
+  document.write("</table>");
+};
