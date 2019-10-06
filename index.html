@@ -32,6 +32,25 @@
         <li>Nighttime Imagery of Cities</li>
       <ul>
     </div>
+    <div id = "area-calculator">
+      <p>Input length and width of a rectangle.</p>
+      <form action = '/index.html' method = 'POST' id = 'area-input'>
+      <label for = 'length'>Length: </label>
+      <input id = 'length' name = 'width' type = 'number' step = '1' required>
+      <p></p>
+      <label for = 'width'>Width: </label>
+      <input id = 'width' name = 'height' type = 'number' step = '1'required>
+      <p></p>
+      </form>
+      <button type = 'button' form = 'area-input' onclick='alert(area_rectangle(document.getElementById("length").value, document.getElementById("width").value))'>Calculate</button>
+      <script>
+      function area_rectangle(length, width)
+      {
+        let area = length * width;
+        return area;
+      };
+      </script>
+    </div>
     <div id = "webmap-reviews">
       <h3>Webmap Reviews</h3>
       <script>

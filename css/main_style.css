@@ -90,6 +90,12 @@ of its normal position.*/
   left: 50px;
 }
 
+#area-calculator {
+  position: relative;
+  font-size: 25px;
+  text-align: center;
+}
+
 #webmap-reviews {
   text-align: left;
   font-size: 25px;
