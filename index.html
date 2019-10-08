@@ -1,6 +1,17 @@
 <!doctype html>
 <html>
 <head>
+  <script src = "javascript/secret_keys.js"></script>
+  <meta charset = "utf-8" />
+  <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+
+  <link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+  integrity = "sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+  crossorigin = ""/>
+  <script src = "https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+  integrity = "sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+  crossorigin = ""/>
+  </script>
   <title>Bradley Johnson</title>
   <!-- All styling for this HTML document are contained in this external css
   file -->
@@ -9,21 +20,26 @@
 </head>
 <body>
   <div id="body-container">
+
     <div id = "content-wrap">
+
     <div id="header">
       <script>
         document.write(welcome());
       </script>
     </div>
+
     <div id="profile-picture">
       <img src=images/profile-picture.jpg width=250px height=250px />
     </div>
+
     <div id="welcome-text">
       My name is Bradley.<br>
       I am a student in the
       <a href="https://www.geo.txstate.edu">Geography Department</a> at
       <a href="https://txstate.edu/">Texas State University</a>.</p>
     </div>
+
     <div id="research-interests">
       <h3>Research Interests:</h3>
       <ul>
@@ -32,6 +48,7 @@
         <li>Nighttime Imagery of Cities</li>
       <ul>
     </div>
+
     <div id = "area-calculator">
       <p>Input length and width of a rectangle.</p>
       <form action = '/index.html' method = 'POST' id = 'area-input'>
@@ -51,15 +68,29 @@
       };
       </script>
     </div>
+
     <div id = "webmap-reviews">
       <h3>Webmap Reviews</h3>
       <script>
         webmap_table();
       </script>
     </div>
+    
+    <h3>My First Webmap<h3>
+    <div id = "mapid" style = "width: 600px; height: 400px; margin: auto;">
+      <script>
+        var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+        L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+          maxZoom: 18,
+          id: 'mapbox.mapbox-traffic-v1',
+          accessToken: 'pk.eyJ1IjoiYnJhZGxleS1qb2huc29uIiwiYSI6ImNrMWgyejA2dTAzNm0zYnBrdGRrcmEzdmkifQ.E1WOZPDYa7gggZF0gCYy6w'
+        }).addTo(mymap);
+      </script>
     </div>
-  <div id="footer">
-    <script>
+    </div>
+
+    <div id="footer">
+      <script>
       // A new variable was intitiated called today which instantiates a date.
       var today = new Date();
       /* A new variable was initiated called year which returns the year of the
@@ -69,8 +100,8 @@
       followed by the copyright symbol, followed by the year returned by the
       .getFullYear method embedded in the year variable.*/
       document.write("Copyright &copy; " + year);
-    </script>
-  </div>
+      </script>
+    </div>
   </div>
 </body>
 </html>
