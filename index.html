@@ -18,6 +18,8 @@
   <link rel = "stylesheet" type = "text/css" href = "css/map_style.css">
   <link rel="stylesheet" type="text/css" href="css/main_style.css">
   <h1><script src = "javascript/external.js"></script></h1>
+  <link rel = "stylesheet" href = "https://cdn.jsdelivr.net/gh/opencagedata/leaflet-opencage-search@d4cbd36122efc8d17152b4177ed0e12165305441/dist/css/L.Control.OpenCageData.Search.min.css" />
+  <script src = "https://cdn.jsdelivr.net/gh/opencagedata/leaflet-opencage-search@d4cbd36122efc8d17152b4177ed0e12165305441/dist/js/L.Control.OpenCageSearch.min.js"></script>
 </head>
 <body>
   <div id="body-container">
@@ -77,10 +79,15 @@
       </script>
     </div>
 
-    <h3>My First Webmap<h3>
+    <h3>Geocoding Map<h3>
     <div id = "mapid" style = "width: 600px; height: 400px; margin: auto;">
       <script>
         var mymap = L.map('mapid');
+        var options = {
+          key: geocoder_api_key,
+          limit: 10
+        };
+        var control = L.Control.openCageSearch(options).addTo(mymap);
         /* MAPBOX TILE LAYER
         L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
           maxZoom: 18,
@@ -89,6 +96,7 @@
         }).addTo(mymap);
         */
         L.tileLayer('http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',{}).addTo(mymap);
+        /*
         var marker = L.marker([51.5, -0.09]).addTo(mymap);
         var circle = L.circle([51.508, -0.11], {
           color: 'red',
@@ -100,6 +108,12 @@
           [51.509, -0.08],
           [51.503, -0.06],
           [51.51, -0.047]
+        ]).addTo(mymap);
+
+        var polyline = L.polyline([
+          [51.506, -0.08],
+          [51.502, -0.06],
+          [51.507, -0.047]
         ]).addTo(mymap);
 
         marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
@@ -117,7 +131,7 @@
         polygon.on('click', function(e){
           mymap.setView(e.latlng, 14);
         });
-
+        */
         var ZoomViewer = L.Control.extend({
           onAdd: function(){
             var gauge = L.DomUtil.create('div');
