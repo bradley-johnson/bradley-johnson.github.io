@@ -1,4 +1,6 @@
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-  background: yellow;
+  background: grey;
+  opacity: 0.95;
+  color: white;
 }
