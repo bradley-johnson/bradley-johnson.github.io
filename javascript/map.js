@@ -4,6 +4,10 @@ var options = {
   limit: 10
 };
 var control = L.Control.openCageSearch(options).addTo(mymap);
+
+// Fullscreen plugin from Mapbox
+mymap.addControl(new L.Control.Fullscreen());
+
 /* MAPBOX TILE LAYER
 L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
   maxZoom: 18,
@@ -11,6 +15,7 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
   accessToken: 'pk.eyJ1IjoiYnJhZGxleS1qb2huc29uIiwiYSI6ImNrMWgyejA2dTAzNm0zYnBrdGRrcmEzdmkifQ.E1WOZPDYa7gggZF0gCYy6w'
 }).addTo(mymap);
 */
+
 L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png',{}).addTo(mymap);
 
 /*var sevenWonders = [
