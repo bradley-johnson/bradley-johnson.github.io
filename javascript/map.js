@@ -37,6 +37,41 @@ var select = L.countrySelect({exclude:"French Southern and Antarctic Lands"});
 				mymap.fitBounds(country.getBounds());
       });
 
+var basemaps = [
+      L.tileLayer('http://a.tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
+              attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+              subdomains: 'abcd',
+              maxZoom: 20,
+              minZoom: 0,
+              label: 'Toner Lite'  // optional label used for tooltip
+          }),
+      L.tileLayer('http://a.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+              attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+              subdomains: 'abcd',
+              maxZoom: 20,
+              minZoom: 0,
+              label: 'Toner'
+          }),
+      L.tileLayer('http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+              attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+              subdomains: 'abcd',
+              maxZoom: 16,
+              minZoom: 1,
+              label: 'Watercolor'
+          }),
+    /*  L.tileLayer.wms('https://firms.modaps.eosdis.nasa.gov/wms/viirs.png', {
+              layers: 'NASA FIRMS',
+              label: 'NASA Fire Hotspots'
+          })*/
+      ];
+
+      mymap.addControl(L.control.basemaps({
+          basemaps: basemaps,
+          tileX: 0,  // tile X coordinate
+          tileY: 0,  // tile Y coordinate
+          tileZ: 1   // tile zoom level
+      }));
+
 /* MAPBOX TILE LAYER
 L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
   maxZoom: 18,
@@ -45,7 +80,7 @@ L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 }).addTo(mymap);
 */
 
-L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png',{}).addTo(mymap);
+//L.tileLayer('http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',{}).addTo(mymap);
 
 /*var sevenWonders = [
   ["India's Taj Mahal", 27.174961, 78.042385],
