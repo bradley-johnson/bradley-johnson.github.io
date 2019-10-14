@@ -8,7 +8,7 @@ var control = L.Control.openCageSearch(options).addTo(mymap);
 // Fullscreen plugin from Mapbox
 mymap.addControl(new L.Control.Fullscreen());
 
-//L.Control.mousePosition(options).addTo(mymap);
+//L.Control.MousePosition(options).addTo(mymap);
 
 var edgeMarkerLayer = L.edgeMarker({
      icon: L.icon({ // style markers
@@ -20,6 +20,22 @@ var edgeMarkerLayer = L.edgeMarker({
      rotateIcons: true, // rotate EdgeMarkers depending on their relative position
      layerGroup: null // you can specify a certain L.layerGroup to create the edge markers from.
    }).addTo(mymap);
+
+var select = L.countrySelect({exclude:"French Southern and Antarctic Lands"});
+			select.addTo(mymap);
+
+			select.on('change', function(e){
+				if (e.feature === undefined){ //Do nothing on title
+					return;
+				}
+				var country = L.geoJson(e.feature);
+				if (this.previousCountry != null){
+					mymap.removeLayer(this.previousCountry);
+				}
+				this.previousCountry = country;
+				mymap.addLayer(country);
+				mymap.fitBounds(country.getBounds());
+      });
 
 /* MAPBOX TILE LAYER
 L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
