@@ -8,6 +8,19 @@ var control = L.Control.openCageSearch(options).addTo(mymap);
 // Fullscreen plugin from Mapbox
 mymap.addControl(new L.Control.Fullscreen());
 
+//L.Control.mousePosition(options).addTo(mymap);
+
+var edgeMarkerLayer = L.edgeMarker({
+     icon: L.icon({ // style markers
+         iconUrl: 'Map Icons/arrow-down-icon-png-6696.png',
+         clickable: true,
+         iconSize: [48, 48],
+         iconAnchor: [24, 24]
+     }),
+     rotateIcons: true, // rotate EdgeMarkers depending on their relative position
+     layerGroup: null // you can specify a certain L.layerGroup to create the edge markers from.
+   }).addTo(mymap);
+
 /* MAPBOX TILE LAYER
 L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
   maxZoom: 18,
