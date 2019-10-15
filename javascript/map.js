@@ -1,6 +1,6 @@
 var mymap = L.map('mapid');
 var options = {
-  key: geocoder_api_key,
+  key: eb3b2f59930346b9901959293f8239ab,
   limit: 10
 };
 var control = L.Control.openCageSearch(options).addTo(mymap);
