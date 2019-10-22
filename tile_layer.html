@@ -18,7 +18,10 @@
   <script src = "https://js.arcgis.com/4.13/"></script>
   <script>
   /* This global require() function loads three ESRI modules: Map,
-  MapView, and TileLayer*/
+  MapView, and TileLayer. TileLayer allows us to work with cached map services
+  from ESRI's ArcGIS server and add it to a map as a tile layer. The tiles are
+  accessed through a cache and are not dynamically-rendered images like
+  MapImageLayer. Cached images load faster than MapImageLayers.*/
   require([
     "esri/Map",
     "esri/views/MapView",
