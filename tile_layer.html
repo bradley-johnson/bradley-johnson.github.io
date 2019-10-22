@@ -17,20 +17,24 @@
   <link rel = "stylesheet" href = "https://js.arcgis.com/4.13/esri/css/main.css">
   <script src = "https://js.arcgis.com/4.13/"></script>
   <script>
-  // This global require() function loads two ESRI modules: Map and MapView.
+  /* This global require() function loads three ESRI modules: Map,
+  MapView, and TileLayer*/
   require([
     "esri/Map",
     "esri/views/MapView",
     "esri/layers/TileLayer"
   ],
-  /*This function loads the ESRI "streets" basemap into the webpage.
-  A local variable called map is created with the basemap loaded as one of
-  its attributes. It calls on the Map module.*/
+  /*This function loads the ESRI "oceans" basemap into the webpage with a
+  transportation tile layer on top of the basemap.
+  A local variable called TransportationLayer is created with an ESRI World_Transportation
+  tile layer added as one of its attributes. It calls on the TileLayer module.*/
   function(Map, MapView, TileLayer){
     var TransportationLayer = new TileLayer({
       url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
     });
 
+    /*A local variable called map is created with the basemap loaded as one of
+    its attributes. It calls on the Map module.*/
     var map = new Map({
     basemap: "oceans",
     layers: [TransportationLayer]
