@@ -88,8 +88,12 @@
       center: [-118.2095, 34.0866]
     });
 
+    // This script registers a listener to listen for the view to be clicked.
     view.on("click", eventHandler);
 
+    /*This function causes a pop-up window to appear saying "You just
+    triggered a 'click' event!" when the view is clicked. The function also
+    logs the same message to the console.*/
     function eventHandler(event) {
       console.log("You just triggered a 'click' event!");
       alert("You just triggered a 'click' event! ");
