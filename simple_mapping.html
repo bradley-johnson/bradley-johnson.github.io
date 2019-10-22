@@ -4,6 +4,7 @@
   <meta charset = "utf-8">
   <meta name = "viewport" content = "initial-scale = 1, maximum-scale = 1, user-scalable = no">
   <title>Simple Mapping</title>
+  <!--The specific style sheet that the webpage will follow.-->
   <style>
     html, body, #viewDiv {
       padding: 0;
@@ -12,18 +13,28 @@
       width: 100%;
     }
   </style>
+  <!--ESRI's javascript and css files are linked into the html head.-->
   <link rel = "stylesheet" href = "https://js.arcgis.com/4.13/esri/css/main.css">
   <script src = "https://js.arcgis.com/4.13/"></script>
   <script>
+  // This global require() function loads two ESRI modules: Map and MapView.
   require([
     "esri/Map",
     "esri/views/MapView"
   ],
+  /*This function loads the ESRI "streets" basemap into the webpage.
+  A local variable called map is created with the basemap loaded as one of
+  its attributes. It calls on the Map module.*/
   function(Map, MapView){
     var map = new Map({
     basemap: "streets"
     });
-
+    /*A local variable called view is created and calls on the MapView
+    module. Its container attribute is set to the name of the division
+    later in the body. The map attribute is set to the map variable
+    previously created. The zoom attribute is set to zoom level 10.
+    The center attribute is set to a unique center coordinate with
+    a latitude/longitude pair.*/
     var view = new MapView({
     container: "viewDiv",
     map: map,
@@ -34,6 +45,7 @@
   </script>
 </head>
 <body>
+  <!--A division called viewDiv was created.-->
   <div id = "viewDiv"></div>
 </body>
 </html>
