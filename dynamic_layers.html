@@ -17,16 +17,18 @@
   <link rel = "stylesheet" href = "https://js.arcgis.com/4.13/esri/css/main.css">
   <script src = "https://js.arcgis.com/4.13/"></script>
   <script>
-  /* This global require() function loads three ESRI modules: Map,
-  MapView, and TileLayer*/
+  /* This global require() function loads four ESRI modules: Map,
+  MapView, TileLayer, and MapImageLayer. The MapImageLayer module displays
+  and analyzes data from sublayers defined in a map service. It exports images
+  instead of features and does not display tiled images.*/
   require([
     "esri/Map",
     "esri/views/MapView",
     "esri/layers/TileLayer",
     "esri/layers/MapImageLayer"
   ],
-  /*This function loads the ESRI "oceans" basemap into the webpage with a
-  transportation tile layer on top of the basemap.
+  /*This function loads the ESRI "dark-gray" basemap into the webpage with a
+  transportation tile layer and a cities map image layer on top of the basemap.
   A local variable called TransportationLayer is created with an ESRI World_Transportation
   tile layer added as one of its attributes. It calls on the TileLayer module.*/
   function(Map, MapView, TileLayer, MapImageLayer){
@@ -34,6 +36,9 @@
       url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
     });
 
+    /*A local variable called CitiesRenderer is created with simple yellow circles
+    displayed. Its label attribute is set to Cities. A renderer defines how to
+    visually represent features in MapImageLayer layer types.*/
     var CitiesRenderer = {
       type: "simple", //autocasts as new SimpleRenderer()
       symbol: {
@@ -49,6 +54,9 @@
       label: "Cities"
     };
 
+    /*A local variable called CitiesLayer is created. It links to an ESRI map MapImageLayer
+    layer. It calls the CitiesRenderer variable previously created and defines an opacity
+    of 0.4. It calls on the MapImageLayer module.*/
     var CitiesLayer = new MapImageLayer({
       url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer",
       sublayers: [
