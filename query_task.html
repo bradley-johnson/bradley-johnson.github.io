@@ -12,13 +12,28 @@
       height: 100%;
       width: 100%;
     }
+
+    #optionsDiv {
+      background-color: dimgray;
+      color: white;
+      padding: 10px;
+      width: 350px;
+    }
+
+    .esri-popup .esri-popup-header .esri-title {
+      font-size: 18px;
+      font-weight: bolder;
+    }
+
+    .esri-popup .esri-popup-body .esri-popup-content {
+      font-size: 14px;
+    }
   </style>
   <!--ESRI's javascript and css files are linked into the html head.-->
   <link rel = "stylesheet" href = "https://js.arcgis.com/4.13/esri/css/main.css">
   <script src = "https://js.arcgis.com/4.13/"></script>
   <script>
-  /* This global require() function loads five ESRI modules: Map,
-  MapView, TileLayer, MapImageLayer, and BasemapGallery. The MapImageLayer module displays
+  /* This global require() function loads twelve ESRI modules. The MapImageLayer module displays
   and analyzes data from sublayers defined in a map service. It exports images
   instead of features and does not display tiled images. The BasemapGallery modules
   allows the user to dynamically change the basemap.*/
@@ -105,8 +120,13 @@
       view: view
     });
 
+    /*The variable popUrl is declared linking to an ESRI database with a layer
+    of California cities and metadata on those cities.*/
     var popUrl = "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/CaliforniaCities/FeatureServer/0";
 
+    /*This popupTemplate variable is declared. It defines what the popup for a
+    city as a result of the user query. It includes the city name as a title,
+    followed by population, households, latitude, and longitude.*/
     var popupTemplate = {
       title: "{City}",
       fieldInfos: [{
@@ -131,12 +151,16 @@
         "<br><b>Longitude:</b> {Longitude}"
     };
 
+    // The GraphicsLayer ESRI module is loaded into the resultsLayer variable.
     var resultsLayer = new GraphicsLayer();
 
+    /*qTask is defined as a new variable and loads the QueryTask ESRI module.
+    The popUrl variable is defined as the qTask variable's url attribute*/
     var qTask = new QueryTask({
       url: popUrl
     });
 
+    // A variable named params is defined, loading the ESRI Query module.
     var params = new Query({
       returnGeometry: true,
       outFields: ["*"]
@@ -148,15 +172,23 @@
       position: "top-right"
     });
 
+    /*This is a function that places the options widget in the bottom right of
+    the map. It provides code to run the doQuery function, that is defined later
+    on in this script, when the doBtn is clicked.*/
     view.when(function() {
       view.ui.add("optionsDiv", "bottom-right");
       on(dom.byId("doBtn"), "click", doQuery);
     });
 
+    /*Three variables are created using the dojo alias to getElementById to get
+    three seperate nodes.*/
     var attributeName = dom.byId("attSelect");
     var expressionSign = dom.byId("signSelect");
     var value = dom.byId("valSelect");
 
+    /* A function named doQuery is defined. It calls on the params and
+    qTask variables previously created. This function executes the query and
+    results in one of two other functions: getResults or promiseRejected.*/
     function doQuery() {
       resultsLayer.removeAll();
       params.where = attributeName.value + expressionSign.value + value.value;
@@ -165,6 +197,13 @@
         .catch(promiseRejected);
     }
 
+    /* A function named getResults is defined. This function is executed when a
+    query is successfully performed. A variable named popResults is created in this
+    function. When getResults is performed it will be in the form of a popup and
+    will return a feature as defined in function(feature). The popResults variable
+    will be populated and added to the resultsLayer. When the results are found
+    and printed the message "results found" will be returned with the number of
+    results returned.*/
     function getResults(response) {
       var popResults = arrayUtils.map(response.features, function(feature) {
         feature.popupTemplate = popupTemplate;
@@ -183,6 +222,9 @@
       dom.byId("printResults").innerHTML = popResults.length + " results found!";
     }
 
+    /* A function named promiseRejected is defined. If the query is unsuccessful
+    this function is executed and prints the message "Promise rejected" along
+    with the error message to the console.*/
     function promiseRejected(error) {
       console.error("Promise rejected: ", error.message);
     }
@@ -192,6 +234,9 @@
 <body>
   <!--A division called viewDiv was created.-->
   <div id = "viewDiv"></div>
+  <!--A division called optionsDiv was created. It defines the way the options
+  for the spatial query will be displayed and what the options themselves are. It
+  includes the title "Cities in California" and a button that performs the query.-->
   <div class = "esri-widget" id = "optionsDiv">
     <h2>Cities in California</h2>
     <select class = "esri-widget" id = "attSelect">
