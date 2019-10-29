@@ -100,6 +100,7 @@ of its normal position.*/
   text-align: left;
   font-size: 25px;
   position: relative;
+  padding-top: 100px;
 }
 
 #content-wrap {
@@ -114,3 +115,47 @@ of its normal position.*/
   font-size: 15px;
   height: 2.5rem;
 }
+
+.dropbtn {
+      background-color: #f4a582;
+      color: black;
+      padding: 16px;
+      font-size: 16px;
+      border-width: thick;
+      border-radius: 10px;
+      border-color: White
+      cursor: pointer;
+      position: relative;
+      top: 25px;
+      right: 75px;
+      z-index: 2;
+    }
+.dropdown {
+      position: inherit;
+      display: inline-block;
+
+    }
+.dropdown-content {
+      display: none;
+      position: relative;
+      top: 25px;
+      right: 75px;
+      background-color: #f4a582;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px #f4a582;
+
+      z-index: 1;
+    }
+    .dropdown-content a {
+      color: black;
+      padding: 12px 12px 12px 12px;
+      text-decoration: none;
+      display: block;
+    }
+    .dropdown-content a:hover {background-color: #f4a582}
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .dropdown:hover .dropbtn {
+      background-color: #f4a582;
+    }
