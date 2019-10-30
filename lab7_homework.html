@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "utf-8">
+  <meta name = "viewport" content = "initial-scale = 1, maximum-scale = 1, user-scalable = no">
+  <title>Lab 7</title>
+  <!--The specific style sheet that the webpage will follow.-->
+  <style>
+    html, body{
+      margin: auto;
+    }
+
+    #viewDiv {
+      position: absolute;
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 10;
+    }
+
+    #titleDiv {
+      background-color: dimgray;
+      color: white;
+      width: 325px;
+      position: fixed;
+      z-index: 99;
+      right: 15px;
+      top: 10px;
+      text-align: center;
+    }
+
+    #optionsDiv {
+      background-color: dimgray;
+      color: white;
+      padding: 10px;
+      width: 350px;
+    }
+
+    .esri-popup .esri-popup-header .esri-title {
+      font-size: 18px;
+      font-weight: bolder;
+    }
+
+    .esri-popup .esri-popup-body .esri-popup-content {
+      font-size: 14px;
+    }
+
+    #footerDiv {
+        /*background-color: dimgray;*/
+        position: fixed;
+        bottom: 15px;
+        left: 5px;
+        color: black;
+        padding: 10px;
+        width: 200px;
+        z-index: 99;
+      }
+  </style>
+  <!--ESRI's javascript and css files are linked into the html head.-->
+  <link rel = "stylesheet" href = "https://js.arcgis.com/4.13/esri/css/main.css">
+  <script src = "https://js.arcgis.com/4.13/"></script>
+  <script>
+  /* This global require() function loads 13 ESRI modules. The MapImageLayer module displays
+  and analyzes data from sublayers defined in a map service. It exports images
+  instead of features and does not display tiled images.*/
+  require([
+    "esri/Map",
+    "esri/views/MapView",
+    "esri/layers/TileLayer",
+    "esri/layers/MapImageLayer",
+    "esri/layers/FeatureLayer",
+    "esri/widgets/Locate",
+    "esri/layers/GraphicsLayer",
+    "esri/tasks/QueryTask",
+    "esri/tasks/support/Query",
+    "dojo/_base/array",
+    "dojo/dom",
+    "dojo/on",
+    "dojo/domReady!"
+  ],
+  /*This function initially loads the ESRI "oceans" basemap into the webpage with a
+  college and university feature layer on top of the basemap.
+  The function immediately overlays the "oceans" basemap with the World_Terrain_Base
+  tileLayer, and it still displays the colleges point feature layer.*/
+  function(Map, MapView, TileLayer, MapImageLayer, FeatureLayer, Locate, GraphicsLayer, QueryTask, Query, arrayUtils, dom, on){
+    var tileLayer = new TileLayer({
+      url: "https://services.arcgisonline.com/arcgis/rest/services/World_Terrain_Base/MapServer"
+    });
+
+    /*A local variable called CollegeLayer is created. It links to an ESRI FeatureLayer.*/
+
+    var CollegeLayer = new FeatureLayer({
+      url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/CollegesUniversities/FeatureServer/0",
+    });
+
+    /*A local variable called map is created with the basemap loaded as one of
+    its attributes. It calls on the Map module, and then loads in the
+    previously created tileLayer and CollegeLayer variables.*/
+    var map = new Map({
+      basemap: "oceans",
+      layers: [tileLayer, CollegeLayer]
+    });
+
+    /*A local variable called view is created and calls on the MapView
+    module. Its container attribute is set to the name of the division
+    that occurs later in the body. The map attribute is set to the map variable
+    previously created. The zoom attribute is set to zoom level 4.
+    The center attribute is set to a unique center coordinate with
+    a latitude/longitude pair that corresponds to a point near the Texas
+    and Oklahoma border.*/
+    var view = new MapView({
+      container: "viewDiv",
+      map: map,
+      zoom: 4,
+      center: [-98.2095, 34.0866]
+    });
+
+    /*A new variable called locateButton is created that calls on the
+    predefined ESRI Locate widget. If the user shares its location with
+    the webpage, then the map will zoom to the user's location and
+    add a point marker where the user is.*/
+    var locateButton = new Locate({
+      view: view
+    });
+
+    /*The variable popUrl is declared linking to an ESRI database with a layer
+    of California cities and metadata on those cities.*/
+    var popUrl = "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/ArcGIS/rest/services/CollegesUniversities/FeatureServer/0";
+
+    /*This popupTemplate variable is declared. It defines what the popup for a
+    college will be as a result of the user query that occurs later on in
+    the code. It includes the the college's name, city, state, its
+    total enrollment, its future enrollment, latitude, and longitude.*/
+    var popupTemplate = {
+      title: "{NAME}",
+      fieldInfos: [{
+        fieldName: "CITY",
+        label: "City",
+        format: {
+          places: 0,
+          digitSeperator: true
+        }
+      }, {
+        fieldName: "STATE",
+        label: "State",
+        format: {
+          places: 0,
+          digitSeperator: true
+        }
+      }, {
+        fieldName: "TOT_ENROLL",
+        label: "Total Enroll",
+        format: {
+          places: 0,
+          digitSeperator: true
+        }
+      }, {
+        fieldName: "FT_ENROLL",
+        label: "Future Enroll",
+        format: {
+          places: 0,
+          digitSeperator: true
+        }
+      }],
+      content:
+        "<b>City:" + "</b> {CITY} " +
+        "<br><b>State:</b> {STATE}" +
+        "<br><b>Total Enroll: </b> {TOT_ENROLL}" +
+        "<br><b>Future Enroll: </b> {FT_ENROLL}" +
+        "<br><b>Latitude:</b> {LATITUDE}" +
+        "<br><b>Longitude:</b> {LONGITUDE}"
+    };
+
+    // The GraphicsLayer ESRI module is loaded into the resultsLayer variable.
+    var resultsLayer = new GraphicsLayer();
+
+    /*qTask is defined as a new variable and loads the QueryTask ESRI module.
+    The popUrl variable is defined as the qTask variable's url attribute*/
+    var qTask = new QueryTask({
+      url: popUrl
+    });
+
+    // A variable named params is defined, loading the ESRI Query module.
+    var params = new Query({
+      returnGeometry: true,
+      outFields: ["*"]
+    });
+
+    /*The Locate ESRI widget was added to the view and positioned on the
+    top-left of the webpage view just below the zoom controls.*/
+    view.ui.add(locateButton, {
+      position: "top-left"
+    });
+
+    /*This is a function that places the options widget in the bottom right of
+    the map. It provides code to run the doQuery function, that is defined later
+    on in this script, when the doBtn is clicked.*/
+    view.when(function() {
+      view.ui.add("optionsDiv", "bottom-right");
+      on(dom.byId("doBtn"), "click", doQuery);
+    });
+
+    /*Three variables are created using the dojo alias to getElementById to get
+    three seperate nodes.*/
+    var attributeName = dom.byId("attSelect");
+    var expressionSign = dom.byId("signSelect");
+    var value = dom.byId("valSelect");
+
+    /* A function named doQuery is defined. It calls on the params and
+    qTask variables previously created. This function executes the query and
+    results in one of two other functions: getResults or promiseRejected.*/
+    function doQuery() {
+      resultsLayer.removeAll();
+      params.where = attributeName.value + expressionSign.value + value.value;
+      qTask.execute(params)
+        .then(getResults)
+        .catch(promiseRejected);
+    }
+
+    /* A function named getResults is defined. This function is executed when a
+    query is successfully performed. A variable named popResults is created in this
+    function. When getResults is performed it will be in the form of a popup and
+    will return a feature as defined in function(feature). The popResults variable
+    will be populated and added to the resultsLayer. When the results are found
+    and printed the message "results found" will be returned with the number of
+    results returned.*/
+    function getResults(response) {
+      var popResults = arrayUtils.map(response.features, function(feature) {
+        feature.popupTemplate = popupTemplate;
+        return feature;
+      });
+
+      resultsLayer.addMany(popResults);
+
+      view.goTo(popResults).then(function() {
+        view.popup.open({
+          features: popResults,
+          featureMenuOpen: true,
+          updateLocationEnabled: true
+        });
+      });
+      dom.byId("printResults").innerHTML = popResults.length + " results found!";
+    }
+
+    /* A function named promiseRejected is defined. If the query is unsuccessful
+    this function is executed and prints the message "Promise rejected" along
+    with the error message to the console.*/
+    function promiseRejected(error) {
+      console.error("Promise rejected: ", error.message);
+    }
+  });
+  </script>
+</head>
+<body>
+  <!--A new div called titleDiv is created and dispalys the title
+  "American Universities" on the top right of the map.-->
+  <div id = "titleDiv">
+    <h1>American Universities</h1>
+  </div>
+
+  <!--A division called viewDiv was created that holds the map itself.-->
+  <div id = "viewDiv">
+  </div>
+
+  <!--A division called optionsDiv was created. It defines the way the options
+  for the spatial query will be displayed and what the options themselves are. It
+  includes the title "Query Universities - Enrollment" and a button that
+   performs the query.-->
+  <div class = "esri-widget" id = "optionsDiv">
+    <h2>Query Universities - Enrollment</h2>
+    <select class = "esri-widget" id = "attSelect">
+      <option value = "TOT_ENROLL">Total Enroll</option>
+      <option value = "FT_ENROLL" selected>Future Enroll</option>
+    </select>
+    <select class = "esri-widget" id = "signSelect">
+      <option value = ">">is greater than</option>
+      <option value = "<">is less than</option>
+    </select>
+    <select class = "esri-widget" id = "valSelect">
+      <option value = "1000">1,000</option>
+      <option value = "2000">2,000</option>
+      <option value = "5000">5,000</option>
+      <option value = "10000">10,000</option>
+      <option value = "20000">20,000</option>
+      <option value = "30000">30,000</option>
+      <option value = "40000">40,000</option>
+      <option value = "50000">50,000</option>
+      <option value = "60000">60,000</option>
+    </select>
+    <br>
+    <br>
+    <button class = "esri-widget" id = "doBtn">Do Query</button>
+    <br>
+    <p><span id = "printResults"></span></p>
+  </div>
+
+  <!--A new div was created called footerDiv, and it holds the copyright
+  information that will be overlayed onto the bottom-left of the map.-->
+  <div id = "footerDiv">
+    <script>
+    // A new variable was intitiated called today which instantiates a date.
+    var today = new Date();
+    /* A new variable was initiated called year which returns the year of the
+    entered date which is today.*/
+    var year = today.getFullYear();
+    /* A line is written on the bottom of the webpage which says "Copyright",
+    followed by the copyright symbol, followed by the year returned by the
+    .getFullYear method embedded in the year variable.*/
+    document.write("Copyright &copy; " + year);
+    </script>
+  </div>
+</body>
+</html>
